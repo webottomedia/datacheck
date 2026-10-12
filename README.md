@@ -17,6 +17,6 @@ Gli aggiornamenti successivi arrivano dalla bacheca di WordPress.
 ## Pubblicare una nuova versione
 
 1. Aggiorna `Version:` in `datacheck/datacheck.php`
-2. `git commit -am "..."`, poi `git tag vX.Y.Z` e `git push --follow-tags`
+2. `git commit -am "..."`, poi `git tag vX.Y.Z` e `git push origin main vX.Y.Z`
 
 La GitHub Action crea la release con lo zip allegato.
