@@ -1,0 +1,31 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Controlla che il tag corrisponda alla versione del plug-in
+        run: |
+          VERSION=$(grep -m1 -E '^\s*\*\s*Version:' datacheck/datacheck.php | awk '{print $NF}')
+          if [ "v$VERSION" != "$GITHUB_REF_NAME" ]; then
+            echo "Il tag $GITHUB_REF_NAME non corrisponde a Version: $VERSION in datacheck.php"
+            exit 1
+          fi
+
+      - name: Crea lo zip
+        run: zip -r datacheck.zip datacheck -x '*.DS_Store'
+
+      - name: Pubblica la release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" datacheck.zip --title "$GITHUB_REF_NAME" --generate-notes
