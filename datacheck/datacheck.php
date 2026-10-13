@@ -3,7 +3,7 @@
  * Plugin Name:       DataCheck for CF7
  * Plugin URI:        https://github.com/webottomedia/datacheck
  * Description:       Controllo anti-spam per Contact Form 7. Aggiungi il tag [datacheck] al form per abilitarlo.
- * Version:           1.2.0
+ * Version:           1.2.1
  * Requires at least: 5.8
  * Requires PHP:      7.4
  * Author:            Alberto Cattani
@@ -32,7 +32,7 @@ require __DIR__ . '/plugin-update-checker/plugin-update-checker.php';
 add_action( 'wpcf7_init', function () {
 	wpcf7_add_form_tag( 'datacheck', function () {
 		return '<span class="dc-field" aria-hidden="true">'
-			. '<input type="text" name="dc-hp" value="" size="40" tabindex="-1" autocomplete="off">'
+			. '<input type="text" name="website-url" value="" size="40" tabindex="-1" autocomplete="off">'
 			. '<input type="hidden" name="dc-t" value="">'
 			. '</span>';
 	} );
@@ -85,7 +85,7 @@ add_filter( 'wpcf7_spam', function ( $spam, $submission ) {
 	}
 
 	// Campo esca compilato
-	if ( ! empty( $_POST['dc-hp'] ) ) {
+	if ( ! empty( $_POST['website-url'] ) ) {
 		$submission->add_spam_log( array(
 			'agent'  => 'datacheck',
 			'reason' => 'Campo esca compilato',
